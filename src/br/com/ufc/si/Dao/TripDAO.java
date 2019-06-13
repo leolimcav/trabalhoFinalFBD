@@ -24,8 +24,8 @@ public class TripDAO {
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
-			stmt.setDate(1, trip.getDepartureDate());
-			stmt.setDate(2, trip.getReturnDate());
+			stmt.setString(1, trip.getDepartureDate());
+			stmt.setString(2, trip.getReturnDate());
 			stmt.setDouble(3, trip.getPrice());
 			stmt.setLong(4, trip.getUserId());
 			stmt.setLong(5, trip.getPlaceId());
@@ -55,8 +55,8 @@ public class TripDAO {
 			if(rs.next()) {
 				trip = new Trip();
 				trip.setTripId(rs.getLong("tripId"));
-				trip.setDepartureDate(rs.getDate("departureDate"));
-				trip.setReturnDate(rs.getDate("returnDate"));
+				trip.setDepartureDate(rs.getString("departureDate"));
+				trip.setReturnDate(rs.getString("returnDate"));
 				trip.setPrice(rs.getDouble("price"));
 				trip.setUserId(rs.getLong("userId"));
 				trip.setPlaceId(rs.getLong("placeId"));
@@ -75,17 +75,18 @@ public class TripDAO {
 	}
 	
 	public void update (Trip trip) {
-		String query = "UPDATE trip SET tripId = ?, departureDate = ?, returnDate = ?, price = ?, userId = ?, placeId = ?";
+		String query = "UPDATE trip SET tripId = ?, departureDate = ?, returnDate = ?, price = ?, userId = ?, placeId = ? WHERE tripId = ?";
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
 			
 			stmt.setLong(1, trip.getTripId());
-			stmt.setDate(2, trip.getDepartureDate());
-			stmt.setDate(3, trip.getReturnDate());
+			stmt.setString(2, trip.getDepartureDate());
+			stmt.setString(3, trip.getReturnDate());
 			stmt.setDouble(4, trip.getPrice());
 			stmt.setLong(5, trip.getUserId());
 			stmt.setLong(6, trip.getPlaceId());
+			stmt.setLong(7, trip.getTripId());
 			
 			stmt.executeUpdate();
 			stmt.close();
@@ -107,6 +108,7 @@ public class TripDAO {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
 			stmt.setLong(1, tripId);
+			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -131,8 +133,8 @@ public class TripDAO {
 			while(rs.next()) {
 				Trip trip = new Trip();
 				trip.setTripId(rs.getLong("tripId"));
-				trip.setDepartureDate(rs.getDate("departureDate"));
-				trip.setReturnDate(rs.getDate("returnDate"));
+				trip.setDepartureDate(rs.getString("departureDate"));
+				trip.setReturnDate(rs.getString("returnDate"));
 				trip.setPrice(rs.getDouble("price"));
 				trip.setUserId(rs.getLong("userId"));
 				trip.setPlaceId(rs.getLong("placeId"));
@@ -152,7 +154,7 @@ public class TripDAO {
 	}
 	
 	public List<Trip> getAllTrips(){
-		String query = "SELECT * FROM trip";
+		String query = "SELECT * FROM usersTrips";
 		List<Trip> trips = new ArrayList<Trip>();
 		try {
 			this.conn = this.connPostgres.getConnection();
@@ -162,8 +164,8 @@ public class TripDAO {
 			while(rs.next()) {
 				Trip trip = new Trip();
 				trip.setTripId(rs.getLong("tripId"));
-				trip.setDepartureDate(rs.getDate("departureDate"));
-				trip.setReturnDate(rs.getDate("returnDate"));
+				trip.setDepartureDate(rs.getString("departureDate"));
+				trip.setReturnDate(rs.getString("returnDate"));
 				trip.setPrice(rs.getDouble("price"));
 				trip.setUserId(rs.getLong("userId"));
 				trip.setPlaceId(rs.getLong("placeId"));

@@ -1,17 +1,16 @@
 package br.com.ufc.si.Entity;
 
-import java.sql.Date;
 
 public class Trip {
 	
 	private Long tripId;
-	private Date departureDate;
-	private Date returnDate;
+	private String departureDate;
+	private String returnDate;
 	private double price;
 	private Long userId;
 	private Long placeId;
 	
-	public Trip(Date departureDate, Date returnDate, double price, Long userId, Long placeId) {
+	public Trip(String departureDate, String returnDate, double price, Long userId, Long placeId) {
 		this.departureDate = departureDate;
 		this.returnDate = returnDate;
 		this.price = price;
@@ -29,19 +28,19 @@ public class Trip {
 		this.tripId = tripId;
 	}
 
-	public Date getDepartureDate() {
+	public String getDepartureDate() {
 		return departureDate;
 	}
 
-	public void setDepartureDate(Date departureDate) {
+	public void setDepartureDate(String departureDate) {
 		this.departureDate = departureDate;
 	}
 
-	public Date getReturnDate() {
+	public String getReturnDate() {
 		return returnDate;
 	}
 
-	public void setReturnDate(Date returnDate) {
+	public void setReturnDate(String returnDate) {
 		this.returnDate = returnDate;
 	}
 

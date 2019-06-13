@@ -25,14 +25,15 @@ public class TelephoneController {
 		telDao.create(tel);
 	}
 	
-	public void updateTelephone(Long userId, String telephone) {
+	public void updateTelephone(Long telId, Long userId,String telephone) {
 		Telephone tel = new Telephone(userId, telephone);
+		tel.setTelId(telId);
 		
 		telDao.update(tel);
 	}
 	
-	public void deleteTelephone(String number) {
-		telDao.delete(number);
+	public void deleteTelephone(Long telId) {
+		telDao.delete(telId);
 	}
 	
 }

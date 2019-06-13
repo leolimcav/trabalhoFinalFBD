@@ -92,8 +92,8 @@ public class UserDAO {
 	}
 	
 	public void update(User user) {
-		String query = "UPDATE users SET userId = ?, fistName = ?, lastName = ?, email = ?, password = ?, gender = ?"
-						+ ", number = ?, street = ?, city = ?, state = ?, zipCode = ?, country = ?, role = ?";
+		String query = "UPDATE users SET userId = ?, firstName = ?, lastName = ?, email = ?, password = ?, gender = ?"
+						+ ", number = ?, street = ?, city = ?, state = ?, zipCode = ?, country = ?, role = ? WHERE userId = ?";
 		try { 
 			
 			this.conn = this.connPostgres.getConnection();
@@ -113,6 +113,7 @@ public class UserDAO {
 			stmt.setString(11, user.getZipCode());
 			stmt.setString(12, user.getCountry());
 			stmt.setLong(13, user.getRole());
+			stmt.setLong(14, user.getUserId());
 			
 			stmt.executeUpdate();
 			stmt.close();
@@ -137,6 +138,7 @@ public class UserDAO {
 			
 			PreparedStatement stmt = this.conn.prepareStatement(query);
 			stmt.setLong(1, userId);
+			stmt.executeUpdate();
 			stmt.close();
 			
 		} catch (SQLException e) {

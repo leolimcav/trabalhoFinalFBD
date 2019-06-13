@@ -28,8 +28,9 @@ public class PlaceController {
 		placeDao.create(place);
 	}
 	
-	public void updatePlace(String city, String country, String description, Long ownerId) {
+	public void updatePlace(Long placeId, String city, String country, String description, Long ownerId) {
 		Place place = new Place(city, country, description, ownerId);
+		place.setPlaceId(placeId);
 		placeDao.update(place);
 	}
 	

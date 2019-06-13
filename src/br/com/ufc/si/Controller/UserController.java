@@ -23,11 +23,12 @@ public class UserController {
 		userDao.create(user);
 	}
 	
-	public void updateUser(String firstName, String lastName, String email, String gender,
+	public void updateUser(Long userId, String firstName, String lastName, String email, String gender,
 			String password, Integer number, String street, String city, String state, String zipCode, String country,
 			Long role) {
 		
 		User user = new User(firstName, lastName, email, gender, password, number, street, city, state, zipCode, country, role);
+		user.setUserId(userId);
 		
 		userDao.update(user);
 	}

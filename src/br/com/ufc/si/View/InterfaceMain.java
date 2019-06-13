@@ -9,7 +9,9 @@ import br.com.ufc.si.Controller.PlaceController;
 import br.com.ufc.si.Controller.TelephoneController;
 import br.com.ufc.si.Controller.TripController;
 import br.com.ufc.si.Controller.UserController;
+import br.com.ufc.si.Entity.Place;
 import br.com.ufc.si.Entity.Telephone;
+import br.com.ufc.si.Entity.Trip;
 import br.com.ufc.si.Entity.User;
 
 public class InterfaceMain {
@@ -36,13 +38,16 @@ public class InterfaceMain {
 				userMenu();
 				break;
 			case 2:
-				
+				tripMenu();
 				break;
 			case 3:
+				placeMenu();
 				break;
 			case 4:
+				telephoneMenu();
 				break;
 			case 5:
+				loop = false;
 				break;
 			default:
 				System.out.println("Invalid Option! Try Again");
@@ -132,7 +137,7 @@ public class InterfaceMain {
 				System.out.print("Country: ");
 				country = scan.next();
 				
-				userController.updateUser(firstName, lastName, email, gender, password, number, street, city, state, zipCode, country, updUser.getRole());
+				userController.updateUser(updUser.getUserId(), firstName, lastName, email, gender, password, number, street, city, state, zipCode, country, updUser.getRole());
 				break;
 			case 4:
 				System.out.print("Type the ID of the User: ");
@@ -173,7 +178,244 @@ public class InterfaceMain {
 	}
 	
 	public void tripMenu() {
+		int tripOpt;
+		boolean loop = true;
 		
+		do {
+			System.out.println("1 - Search Trip By Id");
+			System.out.println("2 - Create Trip");
+			System.out.println("3 - Update Trip");
+			System.out.println("4 - Delete Trip");
+			System.out.println("5 - List All User Trips");
+			System.out.println("6 - List All Trips");
+			System.out.println("7 - Exit");
+			System.out.print("> ");
+			tripOpt = scan.nextInt();
+			
+			switch (tripOpt) {
+			case 1:
+				System.out.print("Type the Trip ID: ");
+				Long tripId = scan.nextLong();
+				Trip trip = tripController.searchTripById(tripId);
+				System.out.println(trip.toString());
+				break;
+			case 2:
+				System.out.print("Departure Date: ");
+				String departureDate = scan.next();
+				System.out.print("Return Date: ");
+				String returnDate = scan.next();
+				System.out.print("Price");
+				double price = scan.nextFloat();
+				System.out.print("UserID: ");
+				Long userId = scan.nextLong();
+				System.out.print("PlaceID: ");
+				Long placeId = scan.nextLong();
+				
+				tripController.createTrip(departureDate, returnDate, price, userId, placeId);
+				break;
+			case 3:
+				System.out.print("Type the Trip ID: ");
+				tripId = scan.nextLong();
+				trip = tripController.searchTripById(tripId);
+				
+				System.out.print("Departure Date: ");
+				departureDate = scan.next();
+				System.out.print("Return Date: ");
+				returnDate = scan.next();
+				
+				tripController.updateTrip(trip.getTripId(), departureDate, returnDate, trip.getPrice(), trip.getUserId(), trip.getPlaceId());
+				break;
+			case 4:
+				System.out.print("Type the Trip ID: ");
+				tripId = scan.nextLong();
+				
+				tripController.deleteTrip(tripId);
+				break;
+			case 5:
+				System.out.print("Type the User ID: ");
+				userId = scan.nextLong();
+				
+				List<Trip> userTrips = new ArrayList<Trip>();
+				userTrips = tripController.listUserTrips(userId);
+				
+				for(Trip t : userTrips) {
+					System.out.println(t.toString());
+				}
+				break;
+			case 6:
+				List<Trip> trips = new ArrayList<Trip>();
+				trips = tripController.listAllTrips();
+				
+				for(Trip t : trips) {
+					System.out.println(t.toString());
+				}
+				break;
+			case 7:
+				loop = false;
+				break;
+				
+			default:
+				System.out.println("Invalid Option! Try Again");
+				break;
+			}
+		} while (loop);
+	}
+	
+	public void placeMenu() {
+		int placeOpt;
+		boolean loop = true;
+		
+		do {
+			System.out.println("1 - Search Place By Id");
+			System.out.println("2 - Create Place");
+			System.out.println("3 - Update Place");
+			System.out.println("4 - Delete Place");
+			System.out.println("5 - List All User Places");
+			System.out.println("6 - List All Places");
+			System.out.println("7 - Exit");
+			System.out.print("> ");
+			placeOpt = scan.nextInt();
+			
+			switch (placeOpt) {
+			case 1:
+				System.out.print("Type the Place ID: ");
+				Long placeId = scan.nextLong();
+				Place place = placeController.searchPlaceById(placeId);
+				System.out.println(place.toString());
+				break;
+			case 2:
+				System.out.print("City: ");
+				String city = scan.next();
+				System.out.print("Country: ");
+				String country = scan.next();
+				System.out.print("Description: ");
+				String desc = scan.next();
+				System.out.print("ownerId: ");
+				Long ownerId = scan.nextLong();
+				
+				placeController.addPlace(city, country, desc, ownerId);
+				break;
+			case 3:
+				System.out.print("Type the place ID: ");
+				placeId = scan.nextLong();
+				
+				place = placeController.searchPlaceById(placeId);
+				System.out.print("City: ");
+				city = scan.next();
+				System.out.print("Country: ");
+				country = scan.next();
+				System.out.print("Description: ");
+				desc = scan.next();
+				
+				placeController.updatePlace(place.getPlaceId(), city, country, desc, place.getOwnerId());
+				break;
+			case 4:
+				System.out.print("Type the place ID: ");
+				placeId = scan.nextLong();
+				
+				placeController.deletePlace(placeId);
+				break;
+			case 5:
+				System.out.print("Type the user ID: ");
+				Long userId = scan.nextLong();
+				
+				List<Place> userPlaces = new ArrayList<Place>();
+				userPlaces = placeController.userPlaces(userId);
+				
+				for(Place p : userPlaces) {
+					System.out.println(p.toString());
+				}
+				break;
+			case 6:
+				List<Place> places = new ArrayList<Place>();
+				places = placeController.listAllPlaces();
+				
+				for(Place p : places) {
+					System.out.println(p.toString());
+				}
+				break;
+			case 7:
+				loop = false;
+				break;
+				
+			default:
+				System.out.println("Invalid Option! Try Again");
+				break;
+			}
+		} while (loop);
+	}
+	
+	public void telephoneMenu() {
+		int telOpt;
+		boolean loop = true;
+		
+		do {
+			System.out.println("1 - Show User Telephones");
+			System.out.println("2 - Add New Number");
+			System.out.println("3 - Update Number");
+			System.out.println("4 - Delete Number");
+			System.out.println("5 - List All Telephones");
+			System.out.println("6 - Exit");
+			System.out.print("> ");
+			telOpt = scan.nextInt();
+			
+			switch (telOpt) {
+			case 1:
+				System.out.print("Type the User ID: ");
+				Long userId = scan.nextLong();
+				
+				List<Telephone> userTel = telephoneController.userTelephone(userId);
+				
+				for(Telephone t : userTel) {
+					System.out.println(t.toString());
+				}
+				break;
+			case 2:
+				System.out.print("Type the telephone number: ");
+				String number = scan.next();
+				System.out.print("Type the User ID: ");
+				userId = scan.nextLong();
+				
+				telephoneController.addTelephone(userId, number);
+				break;
+			case 3:
+				System.out.print("Type the Telephone ID: ");
+				Long telId = scan.nextLong();
+				
+				for(Telephone t : telephoneController.listAllTelephones()) {
+					if(t.getTelId() == telId) {
+						System.out.print("Telephone Number: ");
+						number = scan.next();
+						telephoneController.updateTelephone(t.getTelId(), t.getUserId(),number);
+					}
+				}
+				break;
+			case 4:
+				System.out.print("Type the Telephone ID: ");
+				telId = scan.nextLong();
+				
+				for(Telephone t : telephoneController.listAllTelephones()) {
+					if(t.getTelId() == telId) {
+						telephoneController.deleteTelephone(telId);
+					}
+				}
+				break;
+			case 5:
+				List<Telephone> telephones = new ArrayList<Telephone>();
+				telephones = telephoneController.listAllTelephones();
+				
+				for(Telephone t : telephones) {
+					System.out.println(t.toString());
+				}
+				break;
+			case 6:
+				loop = false;
+				break;
+			default:
+				System.out.println("Invalid Option! Try Again");
+				break;
+			}
+		} while (loop);
 	}
 	
 }

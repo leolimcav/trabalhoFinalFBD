@@ -78,7 +78,7 @@ public class PlaceDAO {
 	}
 	
 	public void update (Place place) {
-		String query = "UPDATE place SET placeId = ?, city = ?, country = ?, description = ?, ownerId = ?";
+		String query = "UPDATE place SET placeId = ?, city = ?, country = ?, description = ?, ownerId = ? WHERE placeId = ?";
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
@@ -88,6 +88,7 @@ public class PlaceDAO {
 			stmt.setString(3, place.getCountry());
 			stmt.setString(4, place.getDescription());
 			stmt.setLong(5, place.getOwnerId());
+			stmt.setLong(6, place.getPlaceId());
 			
 			stmt.executeUpdate();
 			stmt.close();
@@ -108,6 +109,7 @@ public class PlaceDAO {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
 			stmt.setLong(1, placeId);
+			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -127,6 +129,7 @@ public class PlaceDAO {
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
+			stmt.setLong(1, userId);
 			ResultSet rs = stmt.executeQuery();
 			
 			while(rs.next()) {

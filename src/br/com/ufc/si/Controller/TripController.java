@@ -1,6 +1,5 @@
 package br.com.ufc.si.Controller;
 
-import java.sql.Date;
 import java.util.List;
 
 import br.com.ufc.si.Connection.ConnectionPostgres;
@@ -16,13 +15,14 @@ public class TripController {
 		return tripDao.read(tripId);
 	}
 	
-	public void createTrip(Date departureDate, Date returnDate, double price, Long userId, Long placeId) {
+	public void createTrip(String departureDate, String returnDate, double price, Long userId, Long placeId) {
 		Trip trip = new Trip (departureDate, returnDate, price, userId, placeId);
 		tripDao.create(trip);
 	}
 	
-	public void updateTrip(Date departureDate, Date returnDate, double price, Long userId, Long placeId) {
+	public void updateTrip(Long tripId, String departureDate, String returnDate, double price, Long userId, Long placeId) {
 		Trip trip = new Trip (departureDate, returnDate, price, userId, placeId);
+		trip.setTripId(tripId);
 		tripDao.update(trip);
 	}
 	

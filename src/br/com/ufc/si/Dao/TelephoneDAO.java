@@ -42,7 +42,7 @@ public class TelephoneDAO {
 	}
 	
 	public List<Telephone> read (Long userId) {
-		String query = "SELECT * FROM tel WHERE userId = ?";
+		String query = "SELECT * FROM telephone WHERE userId = ?";
 		List<Telephone> telephones = new ArrayList<Telephone>();
 		try {
 			this.conn = this.connPostgres.getConnection();
@@ -72,7 +72,7 @@ public class TelephoneDAO {
 	}
 	
 	public void update (Telephone tel) {
-		String query = "UPDATE telephone SET telId = ?, userId = ?, telephone = ?";
+		String query = "UPDATE telephone SET telId = ?, userId = ?, telephone = ? where telId = ?";
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
@@ -80,6 +80,7 @@ public class TelephoneDAO {
 			stmt.setLong(1, tel.getTelId());
 			stmt.setLong(2, tel.getUserId());
 			stmt.setString(3, tel.getTelephone());
+			stmt.setLong(4, tel.getTelId());
 			
 			stmt.executeUpdate();
 			stmt.close();
@@ -95,12 +96,14 @@ public class TelephoneDAO {
 		}
 	}
 	
-	public void delete (String number) {
-		String query = "DELETE FROM telephone t WHERE t.telephone = ?";
+	public void delete (Long telId) {
+		String query = "DELETE FROM telephone t WHERE t.telId = ?";
 		try {
 			this.conn = this.connPostgres.getConnection();
 			PreparedStatement stmt = this.conn.prepareStatement(query);
-			stmt.setString(1, number);
+			stmt.setLong(1, telId);
+			
+			stmt.executeUpdate();
 			stmt.close();
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -114,7 +117,7 @@ public class TelephoneDAO {
 	}
 	
 	public List<Telephone> getAllPhones(){
-		String query = "SELECT * FROM telephone";
+		String query = "SELECT * FROM userTelephones";
 		List<Telephone> telephones = new ArrayList<Telephone>();
 		try {
 			this.conn = this.connPostgres.getConnection();
