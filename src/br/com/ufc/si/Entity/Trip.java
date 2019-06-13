@@ -1,0 +1,78 @@
+package br.com.ufc.si.Entity;
+
+import java.sql.Date;
+
+public class Trip {
+	
+	private Long tripId;
+	private Date departureDate;
+	private Date returnDate;
+	private double price;
+	private Long userId;
+	private Long placeId;
+	
+	public Trip(Date departureDate, Date returnDate, double price, Long userId, Long placeId) {
+		this.departureDate = departureDate;
+		this.returnDate = returnDate;
+		this.price = price;
+		this.userId = userId;
+		this.placeId = placeId;
+	}
+	
+	public Trip() {}
+
+	public Long getTripId() {
+		return tripId;
+	}
+
+	public void setTripId(Long tripId) {
+		this.tripId = tripId;
+	}
+
+	public Date getDepartureDate() {
+		return departureDate;
+	}
+
+	public void setDepartureDate(Date departureDate) {
+		this.departureDate = departureDate;
+	}
+
+	public Date getReturnDate() {
+		return returnDate;
+	}
+
+	public void setReturnDate(Date returnDate) {
+		this.returnDate = returnDate;
+	}
+
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
+	public Long getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+
+	public Long getPlaceId() {
+		return placeId;
+	}
+
+	public void setPlaceId(Long placeId) {
+		this.placeId = placeId;
+	}
+
+	@Override
+	public String toString() {
+		return "Trip [tripId=" + tripId + ", departureDate=" + departureDate + ", returnDate=" + returnDate + ", price="
+				+ price + ", userId=" + userId + ", placeId=" + placeId + "]" + "\n";
+	}
+	
+}
